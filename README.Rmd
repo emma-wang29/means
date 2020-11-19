@@ -18,37 +18,89 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of means is to provide the `mean` function with some friends.
+The purpose of `means` is to provide the `mean` function with some friends. Especially when the input is very large, users can know the details of what the function is doing during the computation process.
 
 ## Installation
 
 You can install the released version of means from [CRAN](https://CRAN.R-project.org) with:
 
-``` r
+
+```r
 devtools::install_github("emma-wang29/means")
 ```
 
-## Example
+
+## Basic Usage
 
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(means)
+
 mean_cal(1:9)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+## Development
 
-```{r cars}
-summary(cars)
+Always load devtools package first, as it is the public face of a set of packages that support various aspects of package development.
+
+```{r}
+library(devtools)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+To create this R package, call `create_package()` in the console to initialize a new package. The means directory is an R project, we may want to maunipulate it on GitHub, then use `use_git()`.
 
-You can also embed plots, for example:
+```{r}
+create_package("~/Desktop/means")
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+use_git()
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+
+After the R package is created, we can restart R and make a new R script using `use_r()`, and write a function there: start with `mean_cal()`. Then use `load_all()` and `check()` to make the function available for interactive use and check if the package is intact.
+
+A warning will be occurred after running `check()`, which is related to license. So, we need to edit the license through `use_mit_license()`.
+
+```{r}
+use_mit_license("Xuerou Wang")
+```
+
+We always use `devtools::document()` to update documentation.
+
+We still want to test the function to see if it works well, then I used `use_testthat()` for the package to create an R script containing tests: `use_testthat("test-meancal")`
+
+Then check all tests with `test()` in the console to see if it passes the test. Also, I want to test the package using `gapminder` dataset, so I use `::` to access `gapminder`, which added in the `DESCRIPTION` file under `Imports`.
+
+```{r}
+mean_cal(gapminder::gapminder$gdpPercap)
+```
+
+To make the R package more readable, README is added through:
+```{r}
+use_readme_rmd()
+```
+
+and render it everytime with `build_readme()`.
+
+
+Finally, make a vignette with:
+
+```{r}
+use_vignette("means")
+```
+
+And, build all vignettes with:
+```{r}
+build_vignettes()
+```
+
+
+
+
+
+
+
+
+
+
+

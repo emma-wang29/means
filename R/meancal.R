@@ -21,7 +21,6 @@
 mean_cal <- function(data, trim = 0, remove_na = TRUE, verbose = FALSE, ...) {
   if (verbose) cat("Calculating the mean...\n")
   mean <- mean(data, trim = trim, na.rm = remove_na, ...)
- # purrr::map_dbl(data, mean)
 
   if (verbose) cat("Done Calculations, the result is:\n")
   mean

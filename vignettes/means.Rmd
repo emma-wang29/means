@@ -1,0 +1,27 @@
+---
+title: "means"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{means}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(means)
+```
+
+
+This is how `means` works:
+```{r}
+mean_cal(1:9)
+mean_cal(c(1,8))
+```
+

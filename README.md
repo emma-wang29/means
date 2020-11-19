@@ -7,7 +7,9 @@
 
 <!-- badges: end -->
 
-The goal of means is to provide the `mean` function with some friends.
+The purpose of `means` is to provide the `mean` function with some
+friends. Especially when the input is very large, users can know the
+details of what the function is doing during the computation process.
 
 ## Installation
 
@@ -18,36 +20,108 @@ You can install the released version of means from
 devtools::install_github("emma-wang29/means")
 ```
 
-## Example
+## Basic Usage
 
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(means)
+
 mean_cal(1:9)
 #> [1] 5
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+## Development
+
+Always load devtools package first, as it is the public face of a set of
+packages that support various aspects of package development.
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+library(devtools)
+#> Warning: package 'devtools' was built under R version 4.0.3
+#> Loading required package: usethis
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date.
+To create this R package, call `create_package()` in the console to
+initialize a new package. The means directory is an R project, we may
+want to maunipulate it on GitHub, then use `use_git()`.
 
-You can also embed plots, for example:
+``` r
+create_package("~/Desktop/means")
+#> √ Setting active project to 'C:/Users/Emma Wang/Desktop/means'
+#> √ Leaving 'DESCRIPTION' unchanged
+#> Package: means
+#> Title: What the Package Does (One Line, Title Case)
+#> Version: 0.0.0.9000
+#> Authors@R (parsed):
+#>     * First Last <first.last@example.com> [aut, cre] (YOUR-ORCID-ID)
+#> Description: What the package does (one paragraph).
+#> License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+#>     license
+#> Encoding: UTF-8
+#> LazyData: true
+#> Roxygen: list(markdown = TRUE)
+#> RoxygenNote: 7.1.1
+#> √ Leaving 'NAMESPACE' unchanged
+#> √ Setting active project to '<no active project>'
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+use_git()
+#> √ Setting active project to 'C:/Users/Emma Wang/means'
+```
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub\!
+After the R package is created, we can restart R and make a new R script
+using `use_r()`, and write a function there: start with `mean_cal()`.
+Then use `load_all()` and `check()` to make the function available for
+interactive use and check if the package is intact.
+
+A warning will be occurred after running `check()`, which is related to
+license. So, we need to edit the license through `use_mit_license()`.
+
+``` r
+use_mit_license("Xuerou Wang")
+```
+
+We always use `devtools::document()` to update documentation.
+
+We still want to test the function to see if it works well, then I used
+`use_testthat()` for the package to create an R script containing tests:
+`use_testthat("test-meancal")`
+
+Then check all tests with `test()` in the console to see if it passes
+the test. Also, I want to test the package using `gapminder` dataset, so
+I use `::` to access `gapminder`, which added in the `DESCRIPTION` file
+under `Imports`.
+
+``` r
+mean_cal(gapminder::gapminder$gdpPercap)
+#> [1] 7215.327
+```
+
+To make the R package more readable, README is added through:
+
+``` r
+use_readme_rmd()
+#> √ Leaving 'README.Rmd' unchanged
+```
+
+and render it everytime with `build_readme()`.
+
+Finally, make a vignette with:
+
+``` r
+use_vignette("means")
+#> √ Leaving 'vignettes/means.Rmd' unchanged
+```
+
+And, build all vignettes with:
+
+``` r
+build_vignettes()
+#> Building means vignettes
+#> --- re-building 'means.Rmd' using rmarkdown
+#> --- finished re-building 'means.Rmd'
+#> 
+#> Moving means.html, means.R to doc/
+#> Copying means.Rmd to doc/
+#> Building vignette index
+```
